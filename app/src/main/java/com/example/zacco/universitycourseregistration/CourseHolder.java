@@ -32,6 +32,8 @@ public class CourseHolder extends RecyclerView.ViewHolder{
             @Override
             public void onClick(View v){
 
+
+
             }
         });
     }

@@ -26,9 +26,9 @@ import java.util.Map;
 public class AcademicTimetable extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private EditText addTaskBox;
     private DatabaseReference databaseReference;
     private List<Course> courses;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,6 @@ public class AcademicTimetable extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recycler);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        //recyclerViewAdapter = new CourseAdapter(AcademicTimetable.this, courses);
-
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
