@@ -26,7 +26,6 @@ import java.util.Map;
 public class AcademicTimetable extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private EditText addTaskBox;
     private DatabaseReference databaseReference;
     private List<Course> courses;
     @Override
@@ -69,9 +68,11 @@ public class AcademicTimetable extends AppCompatActivity {
                                 String prof = (String) map.get("Prof");
                                 String profEmail = (String) map.get("Prof Email");
                                 String semester = (String) map.get("Semester");
-                                String time = (String) map.get("Time");
+                                long time = (Long) map.get("TimeSlot");
+                                String timeSlot = time+"";
+                                String day = (String) map.get("Day");
                                 Course c = new Course(name, description, 0, location,
-                                        prerequisites, prof, profEmail, semester, time);
+                                        prerequisites, prof, profEmail, semester, timeSlot, day);
                                 System.out.println(c.toString());
                                 return c;
                             }
