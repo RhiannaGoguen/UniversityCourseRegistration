@@ -11,10 +11,11 @@ public class Course {
     String profEmail;
     String semester;
     String time;
+    String day;
 
     public Course(){}
 
-    public Course (String name, String description, int capacity, String location, String prerequisites, String prof, String profEmail, String semester, String time){
+    public Course (String name, String description, int capacity, String location, String prerequisites, String prof, String profEmail, String semester, String time, String day){
         this.name = name;
         this.description = description;
         this.capacity = capacity;
@@ -24,6 +25,7 @@ public class Course {
         this.profEmail = profEmail;
         this.semester = semester;
         this.time = time;
+        this.day = day;
     }
 
     public String getName() {
@@ -88,12 +90,20 @@ public class Course {
         this.semester = semester;
     }
 
-    public String getTime() {
+    public String getTimeSlot() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTimeSlot(String time) {
         this.time = time;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 
 
@@ -105,7 +115,8 @@ public class Course {
                 "Prof: "+getProf()+"\n" +
                 "Prof Email: "+getProfEmail()+"\n" +
                 "Semester: "+getSemester()+"\n" +
-                "Time: "+getTime()+"\n" +
+                "TimeSlot: "+getTimeSlot()+"\n" +
+                "Day: "+getDay()+"\n" +
                 "Prerequisites: "+getPrerequisites()+"\n";
         return result;
     }

@@ -28,7 +28,6 @@ public class AcademicTimetable extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private DatabaseReference databaseReference;
     private List<Course> courses;
-
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +40,9 @@ public class AcademicTimetable extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recycler);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        //recyclerViewAdapter = new CourseAdapter(AcademicTimetable.this, courses);
+
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
@@ -66,9 +68,11 @@ public class AcademicTimetable extends AppCompatActivity {
                                 String prof = (String) map.get("Prof");
                                 String profEmail = (String) map.get("Prof Email");
                                 String semester = (String) map.get("Semester");
-                                String time = (String) map.get("Time");
+                                long time = (Long) map.get("TimeSlot");
+                                String timeSlot = time+"";
+                                String day = (String) map.get("Day");
                                 Course c = new Course(name, description, 0, location,
-                                        prerequisites, prof, profEmail, semester, time);
+                                        prerequisites, prof, profEmail, semester, timeSlot, day);
                                 System.out.println(c.toString());
                                 return c;
                             }
