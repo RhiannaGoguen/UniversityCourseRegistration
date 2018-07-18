@@ -22,6 +22,7 @@ public class WelcomePage extends AppCompatActivity {
     private DatabaseReference dbRef;
     private Button logoutBtn;
     private Button activityRegistered;
+    private Button schedule;
     private String fName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,14 @@ public class WelcomePage extends AppCompatActivity {
                 goToRegisteredClasses();
             }
         });
+
+        schedule = (Button) findViewById(R.id.schedule);
+        schedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToSchedule();
+            }
+        });
     }
     /** Called when the user taps the button */
     public void goToRegisteredClasses() {
@@ -79,7 +88,7 @@ public class WelcomePage extends AppCompatActivity {
         Intent startNewActivity = new Intent(this, AcademicTimetable.class);
         startActivity(startNewActivity);
     }
-    public void goToSchedule(View view) {
+    public void goToSchedule() {
         // Do something in response to button
         Intent startNewActivity = new Intent(this, StudentSchedule.class);
         startActivity(startNewActivity);
