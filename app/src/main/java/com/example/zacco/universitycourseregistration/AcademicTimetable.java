@@ -55,25 +55,7 @@ public class AcademicTimetable extends AppCompatActivity {
                             @Override
                             public Course parseSnapshot(@NonNull DataSnapshot snapshot) {
                                 Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
-                                String name = (String) map.get("Course Name");
-                                String description = (String) map.get("Description");
-
-                                //TODO what's wrong with capacity? When I try to set it, it errors.
-                                //Is it because it is set to 0 and so it assumes it is set to a
-                                // null or something like that?
-                                //int capacity = (int) map.get("Capacity");
-
-                                String location = (String) map.get("Location");
-                                String prerequisites = (String) map.get("Prerequisites");
-                                String prof = (String) map.get("Prof");
-                                String profEmail = (String) map.get("Prof Email");
-                                String semester = (String) map.get("Semester");
-                                long time = (Long) map.get("TimeSlot");
-                                String timeSlot = time+"";
-                                String day = (String) map.get("Day");
-                                Course c = new Course(name, description, 0, location,
-                                        prerequisites, prof, profEmail, semester, timeSlot, day);
-                                System.out.println(c.toString());
+                                Course c = Course.parse(map);
                                 return c;
                             }
                         })
