@@ -1,5 +1,6 @@
 package com.example.zacco.universitycourseregistration;
 
+import android.app.ListActivity;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -24,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StudentSchedule extends AppCompatActivity {
+public class StudentSchedule extends ListActivity {
 
     private ListView listView;
     private LinearLayoutManager linearLayoutManager;
@@ -52,6 +54,11 @@ public class StudentSchedule extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param map
+     * @return
+     */
     public String[] getArray(Map<String, Object> map) {
         String[] currentClasses = new String[map.size()];
         int i = 0;
@@ -99,12 +106,22 @@ public class StudentSchedule extends AppCompatActivity {
 
                 for(int i = 1; i<6; i++){
                     Map<String, Object> scheduleMap = (Map<String, Object>) dataSnapshot.child(i+"").getValue();
-                    Course c= Course.parse(scheduleMap);
+                    Course c = Course.parse(scheduleMap);
+                    System.out.println(c.toString());
+                    System.out.println("Going to get timings...");
                     for(i =0; i<courseList.length; i++){
-                        if(c.getName()==courseList[i]){
+                        System.out.println("Looping");
+                        if(c.getName().equals(courseList[i])){
                             timings.add(new ScheduleTiming(c.getDay(), c.getTimeSlot()));
+                            System.out.println("Timings: "+timings.get(i).toString());
                         }
                     }
+
+                    //TODO sort timings
+                    //  - Create new array for timings that are sorted
+                    //  - We gotta sort by day first and then timeslot
+                    //  - We'll
+
                 }
             }
 
@@ -113,10 +130,17 @@ public class StudentSchedule extends AppCompatActivity {
                 Log.e("DATASNAPSHOT", "Datasnapshot error");
             }
         });
+
+
     }
 
 
+    public void printTimings(String[] timings){
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, timings);
+        setListAdapter(arrayAdapter);
+    }
 
 }
+
 
 

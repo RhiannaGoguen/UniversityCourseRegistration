@@ -2,8 +2,18 @@ package com.example.zacco.universitycourseregistration;
 
 public class ScheduleTiming {
 
+    public String name;
     public String day;
     public String timeSlot;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.day = name;
+    }
 
     public String getDay() {
         return day;
