@@ -1,5 +1,10 @@
 package com.example.zacco.universitycourseregistration;
 
+/**
+ * This activity displays the total course list and the courses' details by using a RecyclerView.
+ * It also is where you register and drop courses.
+ */
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
