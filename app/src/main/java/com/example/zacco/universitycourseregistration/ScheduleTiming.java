@@ -10,7 +10,11 @@ public class ScheduleTiming {
     public String name;
     public String day;
     public String timeSlot;
+    public String semester;
 
+
+    public String getSemester(){ return semester;}
+    public void setSemester(String s){this.semester=s;}
 
     public String getName() {
         return name;
@@ -38,16 +42,16 @@ public class ScheduleTiming {
 
 
 
-    public ScheduleTiming(String day, String timeSlot, String name){
+    public ScheduleTiming(String day, String timeSlot, String name, String semester){
         this.day = day;
         this.timeSlot=timeSlot;
         this.name = name;
+        this.semester = semester;
 
     }
 
     /**
      * The toString for the scheduleTimings.
-     * It converts the time slots into understandable times.
      * @return
      *      String with converted time.
      */

@@ -7,8 +7,9 @@ package com.example.zacco.universitycourseregistration;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class StudentSchedule extends ListActivity {
@@ -28,13 +30,16 @@ public class StudentSchedule extends ListActivity {
     private String[] courseList;
     private ArrayList<ScheduleTiming> timings;
 
-    ScheduleTiming[] mon = new ScheduleTiming[4];
-    ScheduleTiming[] tues = new ScheduleTiming[4];
-    ScheduleTiming[] wed = new ScheduleTiming[4];
-    ScheduleTiming[] thurs = new ScheduleTiming[4];
-    ScheduleTiming[] fri = new ScheduleTiming[4];
+    ScheduleTiming[][] mon = new ScheduleTiming[4][2];
+    ScheduleTiming[][] tues = new ScheduleTiming[4][2];
+    ScheduleTiming[][] wed = new ScheduleTiming[4][2];
+    ScheduleTiming[][] thurs = new ScheduleTiming[4][2];
+    ScheduleTiming[][] fri = new ScheduleTiming[4][2];
 
-    String[] finalSchedule = new String[5];
+    String[] finalFallSchedule = new String[5];
+    String[] finalWinterSchedule = new String[5];
+    Button fall;
+    Button winter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -43,12 +48,29 @@ public class StudentSchedule extends ListActivity {
 
         auth = FirebaseAuth.getInstance();
         dbReferenceStudentCourses = FirebaseDatabase.getInstance().getReference("Students/"+auth.getUid()+"/Courses");
+        //dbReferenceStudentCourses = FirebaseDatabase.getInstance().getReference("Students/"+"Student1"+"/Courses");
         dbReferenceAllCourses = FirebaseDatabase.getInstance().getReference("Course");
         timings = new ArrayList<ScheduleTiming>();
 
         getUserCourses();
 
-        getSchedule();
+        fall = (Button) findViewById(R.id.fall);
+        winter = (Button) findViewById(R.id.winter);
+
+        fall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                populateListView(finalFallSchedule);
+            }
+        });
+
+        winter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                populateListView(finalWinterSchedule);
+            }
+        });
+
 
     }
 
@@ -71,6 +93,17 @@ public class StudentSchedule extends ListActivity {
         return currentClasses;
     }
 
+    public String[] getArray(List<Object> list) {
+        String[] currentClasses = new String[list.size()];
+        int i = 0;
+        for(int k=0; k<list.size(); k++){
+            currentClasses[i] = list.get(k).toString();
+            Log.w("check",currentClasses[i]);
+            i++;
+        }
+        return currentClasses;
+    }
+
     /**
      * This method calls the getArray method to convert the Database snapshot of the current
      * students courses into a String array and stores it in the courseList array.
@@ -80,9 +113,18 @@ public class StudentSchedule extends ListActivity {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String,Object> courseMap = (Map<String,Object>) dataSnapshot.getValue();
 
-                courseList = getArray(courseMap);
+
+                if (dataSnapshot.getValue() instanceof List) {
+                    List<Object> courses = (List<Object>) dataSnapshot.getValue();
+                    courseList = getArray(courses);
+                } else {
+                    Map<String, Object> courses = (Map<String, Object>) dataSnapshot.getValue();
+                    courseList = getArray(courses);
+                }
+
+
+                getSchedule();
 
             }
 
@@ -90,6 +132,8 @@ public class StudentSchedule extends ListActivity {
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("DATASNAPSHOT", "Datasnapshot error");
             }
+
+
         });
     }
 
@@ -115,7 +159,7 @@ public class StudentSchedule extends ListActivity {
                     for(int k =0; k<courseList.length; k++){
                         System.out.println("Looping");
                         if(c.getName().equals(courseList[k])){
-                            timings.add(new ScheduleTiming(c.getDay(), c.getTimeSlot(), c.getName()));
+                            timings.add(new ScheduleTiming(c.getDay(), c.getTimeSlot(), c.getName(), c.getSemester()));
                             System.out.println("Timings: "+timings.get(0).toString());
                         }
                     }
@@ -125,9 +169,10 @@ public class StudentSchedule extends ListActivity {
 
                 sortTimings(timings);
 
-                makeString();
+                makeString(finalFallSchedule, 0);
+                makeString(finalWinterSchedule, 1);
 
-                populateListView();
+                populateListView(finalFallSchedule);
             }
 
             @Override
@@ -147,33 +192,38 @@ public class StudentSchedule extends ListActivity {
      *      ArrayList of ScheduleTimings of the student's courses.
      */
     public void sortTimings(ArrayList<ScheduleTiming> timings){
+
         for(int i = 0; i<timings.size(); i++){
             ScheduleTiming curr = timings.get(i);
+            int term = 0;
+            if(curr.getSemester().contains("Winter"))
+                term = 1;
+
             if(curr.getDay().contains("M")){
                 String timeslot = curr.getTimeSlot();
                 int timeSlotI= Integer.parseInt(timeslot);
-                mon[timeSlotI] = curr;
+                mon[timeSlotI][term] = curr;
             }
             if(curr.getDay().contains("TU")){
                 String timeslot = curr.getTimeSlot();
                 int timeSlotI= Integer.parseInt(timeslot);
-                tues[timeSlotI] = curr;
+                tues[timeSlotI][term] = curr;
             }
             if(curr.getDay().contains("W")){
                 String timeslot = curr.getTimeSlot();
                 int timeSlotI= Integer.parseInt(timeslot);
-                wed[timeSlotI] = curr;
+                wed[timeSlotI][term] = curr;
 
             }
             if(curr.getDay().contains("TH")){
                 String timeslot = curr.getTimeSlot();
                 int timeSlotI= Integer.parseInt(timeslot);
-                thurs[timeSlotI] = curr;
+                thurs[timeSlotI][term] = curr;
             }
             if(curr.getDay().contains("F")){
                 String timeslot = curr.getTimeSlot();
                 int timeSlotI= Integer.parseInt(timeslot);
-                fri[timeSlotI] = curr;
+                fri[timeSlotI][term] = curr;
 
             }
 
@@ -184,61 +234,64 @@ public class StudentSchedule extends ListActivity {
      * This method coverts the contents of the days of the week ScheduleTiming arrays
      * into strings for the finalSchedule array. It also populates days of the week with no
      * classes with a String that indicates there aren't any courses on that day.
+     *
      */
-    public void makeString(){
+    public void makeString(String[] schedule, int term){
 
-        finalSchedule[0] = "Monday\n\n";
-        finalSchedule[1] = "Tuesday\n\n";
-        finalSchedule[2] = "Wednesday\n\n";
-        finalSchedule[3] = "Thursday\n\n";
-        finalSchedule[4] = "Friday\n\n";
+        schedule[0] = "Monday\n\n";
+        schedule[1] = "Tuesday\n\n";
+        schedule[2] = "Wednesday\n\n";
+        schedule[3] = "Thursday\n\n";
+        schedule[4] = "Friday\n\n";
 
 
         for(int i = 0; i<4; i++){
-            if(mon[i] != null){
-                finalSchedule[0] = finalSchedule[0]+mon[i].toString();
+            if(mon[i][term] != null){
+                schedule[0] = schedule[0]+mon[i][term].toString();
             }
-            if(tues[i] != null){
-                finalSchedule[1] = finalSchedule[1]+tues[i].toString();
+            if(tues[i][term] != null){
+                schedule[1] = schedule[1]+tues[i][term].toString();
             }
-            if(wed[i] != null){
-                finalSchedule[2] = finalSchedule[2]+wed[i].toString();
+            if(wed[i][term] != null){
+                schedule[2] = schedule[2]+wed[i][term].toString();
             }
-            if(thurs[i] != null){
-                finalSchedule[3] = finalSchedule[3]+thurs[i].toString();
+            if(thurs[i][term] != null){
+                schedule[3] = schedule[3]+thurs[i][term].toString();
             }
-            if(fri[i] != null){
-                finalSchedule[4] = finalSchedule[4]+fri[i].toString();
+            if(fri[i][term] != null){
+                schedule[4] = schedule[4]+fri[i][term].toString();
             }
 
         }
 
 
-        if(finalSchedule[4].equals("Friday\n\n")){
-            finalSchedule[4]=finalSchedule[4]+"No classes on Friday!";
+        if(schedule[4].equals("Friday\n\n")){
+            schedule[4]=schedule[4]+"No classes on Friday!";
         }
-        if(finalSchedule[3].equals("Thursday\n\n")){
-            finalSchedule[3]=finalSchedule[3]+"No classes on Thursday!";
+        if(schedule[3].equals("Thursday\n\n")){
+            schedule[3]=schedule[3]+"No classes on Thursday!";
         }
-        if(finalSchedule[2].equals("Wednesday\n\n")){
-            finalSchedule[2]=finalSchedule[2]+"No classes on Wednesday!";
+        if(schedule[2].equals("Wednesday\n\n")){
+            schedule[2]=schedule[2]+"No classes on Wednesday!";
         }
-        if(finalSchedule[1].equals("Tuesday\n\n")){
-            finalSchedule[1]=finalSchedule[1]+"No classes on Tuesday!";
+        if(schedule[1].equals("Tuesday\n\n")){
+            schedule[1]=schedule[1]+"No classes on Tuesday!";
         }
-        if(finalSchedule[0].equals("Monday\n\n")){
-            finalSchedule[0]=finalSchedule[0]+"No classes on Monday!";
+        if(schedule[0].equals("Monday\n\n")){
+            schedule[0]=schedule[0]+"No classes on Monday!";
         }
 
 
     }
 
+
+
     /**
      * This method populates the ListView with the Course timing information stored in the
      * finalSchedule String array.
      */
-    public void populateListView(){
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, finalSchedule);
+    public void populateListView(String[] schedule){
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, schedule);
         setListAdapter(arrayAdapter);
     }
 
