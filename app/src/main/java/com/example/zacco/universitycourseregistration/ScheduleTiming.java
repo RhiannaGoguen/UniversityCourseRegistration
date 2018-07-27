@@ -49,21 +49,10 @@ public class ScheduleTiming {
      * The toString for the scheduleTimings.
      * It converts the time slots into understandable times.
      * @return
+     *      String with converted time.
      */
     public String toString(){
-        String time ="";
-        if(timeSlot.equals("1")){
-            time = "10:00AM-11:00AM";
-        }
-        else if(timeSlot.equals("2")){
-            time = "11:00AM-12:00PM";
-        }
-        else if(timeSlot.equals("3")){
-            time = "1:00PM-2:00PM";
-        }
-        else if(timeSlot.equals("4")){
-            time = "2:00PM-3:00PM";
-        }
+        String time = Course.timeslotToTime(this.getTimeSlot());
         return name+"\nTime: "+time+"\n";
     }
 

@@ -8,6 +8,7 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -42,7 +43,6 @@ public class StudentSchedule extends ListActivity {
 
         auth = FirebaseAuth.getInstance();
         dbReferenceStudentCourses = FirebaseDatabase.getInstance().getReference("Students/"+auth.getUid()+"/Courses");
-        //dbReferenceStudentCourses = FirebaseDatabase.getInstance().getReference("Students/"+"1"+"/Courses");
         dbReferenceAllCourses = FirebaseDatabase.getInstance().getReference("Course");
         timings = new ArrayList<ScheduleTiming>();
 
@@ -80,7 +80,6 @@ public class StudentSchedule extends ListActivity {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-               // ArrayList<Object> snapShotVal = (ArrayList<Object> )dataSnapshot.getValue();
                 Map<String,Object> courseMap = (Map<String,Object>) dataSnapshot.getValue();
 
                 courseList = getArray(courseMap);
