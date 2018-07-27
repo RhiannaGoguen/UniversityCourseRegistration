@@ -22,12 +22,12 @@ public class RegisteredClasses extends ListActivity {
 
     private FirebaseAuth auth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registered_classes);
         populateRegistered();
-      
     }
 
     public void populateRegistered() {
@@ -62,34 +62,4 @@ public class RegisteredClasses extends ListActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, currentClasses);
         setListAdapter(arrayAdapter);
     }
-
-    public void populateRegistered(){
-        auth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance().getReference().child("Students").child(auth.getUid()).child("Courses");
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange( DataSnapshot dataSnapshot) {
-                for (DataSnapshot students : dataSnapshot.getChildren()){
-                    Log.v("what",""+ students.getKey());
-                    Log.v("tmz", "" + students.child("First Name").getValue());
-                    String key = students.getKey();
-                    if(key.equals(auth.getUid())){
-                        String name = students.child("First Name").getValue().toString() + " " + students.child("Last Name").getValue().toString();
-                        String uid = auth.getUid();
-                        setContentView(R.layout.activity_registered_classes);
-                        TextView textView = (TextView) findViewById(R.id.studentInfo);
-                        textView.setText(name);
-                        textView = (TextView) findViewById(R.id.studentID);
-                        textView.setText(uid);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("check", "failed");
-            }
-        });
-    }
-
 }
