@@ -33,7 +33,7 @@ public class Login_Espresso {
     private String emailValid;
     private String passValid;
     @Rule
-    public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule(LoginActivity.class);
+    public ActivityTestRule<LoginActivity> activityRule = new ActivityTestRule(LoginActivity.class);
     @Before
     public void initValidAndInvalidString(){
         emailValid = "test@test.com";

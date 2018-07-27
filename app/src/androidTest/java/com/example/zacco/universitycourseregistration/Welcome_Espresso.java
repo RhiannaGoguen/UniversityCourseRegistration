@@ -22,7 +22,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class Welcome_Espresso {
     @Rule
-    public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule(WelcomePage.class);
+    public ActivityTestRule<WelcomePage> activityRule = new ActivityTestRule(WelcomePage.class);
     @Before
     public void initValidAndInvalidString(){
         Intents.init();
