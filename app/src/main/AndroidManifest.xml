@@ -54,21 +54,18 @@
                  <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>-->
         </activity>
-        <activity android:name=".StudentSchedule">
+        <activity android:name=".StudentSchedule"
+            android:parentActivityName=".WelcomePage"
+            />
             <!--<intent-filter>
                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
-        </activity>
         <activity
             android:name=".RegisteredClasses"
-            android:theme="@style/AppTheme.NoActionBar" />
-			
-        <activity android:name=".RegisteredClasses" android:parentActivityName=".WelcomePage">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".WelcomePage"/>
 
-        <activity android:name=".StudentSchedule" android:parentActivityName=".WelcomePage">
-        </activity>
 
     </application>
 
