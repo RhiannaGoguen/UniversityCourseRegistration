@@ -11,8 +11,22 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
+
+    <string-array name="specialty">
+        <item>-Select a Department-</item>
+        <item>All</item>
+        <item>Mathematics</item>
+        <item>Geology</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="term">
+        <item>-Select a Term-</item>
+        <item>All</item>
+        <item>Fall 2019</item>
+        <item>Winter 2019</item>
+    </string-array>
+
 </resources>
