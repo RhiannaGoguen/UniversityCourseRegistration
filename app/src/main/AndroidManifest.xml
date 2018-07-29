@@ -29,7 +29,8 @@
         <activity
             android:name=".LoginActivity"
 
-            android:label="@string/title_activity_login">
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,7 +47,7 @@
         </activity>
 
 
-        <activity android:name=".AcademicTimetable">
+        <activity android:name=".AcademicTimetable" android:parentActivityName=".WelcomePage">
              <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,13 +57,19 @@
         <activity android:name=".StudentSchedule">
             <!--<intent-filter>
                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
         </activity>
         <activity
             android:name=".RegisteredClasses"
             android:theme="@style/AppTheme.NoActionBar" />
+			
+        <activity android:name=".RegisteredClasses" android:parentActivityName=".WelcomePage">
+        </activity>
+
+        <activity android:name=".StudentSchedule" android:parentActivityName=".WelcomePage">
+        </activity>
+
     </application>
 
 </manifest>
