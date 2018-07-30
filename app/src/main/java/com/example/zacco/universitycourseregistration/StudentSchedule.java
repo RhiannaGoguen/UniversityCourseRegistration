@@ -117,10 +117,14 @@ public class StudentSchedule extends ListActivity {
 
                 if (dataSnapshot.getValue() instanceof List) {
                     List<Object> courses = (List<Object>) dataSnapshot.getValue();
-                    courseList = getArray(courses);
+                    if(courses!=null) {
+                        courseList = getArray(courses);
+                    }
                 } else {
                     Map<String, Object> courses = (Map<String, Object>) dataSnapshot.getValue();
-                    courseList = getArray(courses);
+                    if(courses!=null) {
+                        courseList = getArray(courses);
+                    }
                 }
 
 
@@ -151,19 +155,20 @@ public class StudentSchedule extends ListActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for(int i = 1; i<6; i++){
-                    Map<String, Object> scheduleMap = (Map<String, Object>) dataSnapshot.child(i+"").getValue();
+                if(courseList!=null){
+                for(int i = 1; i<6; i++) {
+                    Map<String, Object> scheduleMap = (Map<String, Object>) dataSnapshot.child(i + "").getValue();
                     Course c = Course.parse(scheduleMap);
                     System.out.println(c.getName());
                     System.out.println("Going to get timings...");
-                    for(int k =0; k<courseList.length; k++){
+                    for (int k = 0; k < courseList.length; k++) {
                         System.out.println("Looping");
-                        if(c.getName().equals(courseList[k])){
+                        if (c.getName().equals(courseList[k])) {
                             timings.add(new ScheduleTiming(c.getDay(), c.getTimeSlot(), c.getName(), c.getSemester()));
-                            System.out.println("Timings: "+timings.get(0).toString());
+                            System.out.println("Timings: " + timings.get(0).toString());
                         }
                     }
-
+                }
 
                 }
 
