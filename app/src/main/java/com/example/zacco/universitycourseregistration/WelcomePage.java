@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -16,34 +18,31 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WelcomePage extends AppCompatActivity {
     private TextView welcomeText;
     private FirebaseAuth auth;
     private DatabaseReference dbRef;
     private Button logoutBtn;
     private Button activityRegistered;
-    private Button schedule;
     private String fName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
         auth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance().getReference().child("Students");
+        dbRef = FirebaseDatabase.getInstance().getReference("Students/"+auth.getUid());
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange( DataSnapshot dataSnapshot) {
-                for (DataSnapshot students : dataSnapshot.getChildren()){
-                    Log.v("what",""+ students.getKey());
-                    Log.v("tmz", "" + students.child("First Name").getValue());
-                    String key = students.getKey();
-                    if(key.equals(auth.getUid())){
-                        fName = "" + students.child("First Name").getValue();
-                        welcomeText = (TextView) findViewById(R.id.Welcome);
-                        welcomeText.setText("Welcome " +fName+ " to The University of Maximegalon Course Registration!");
-                        Log.v("tmz", "" + students.child("First Name").getValue());
-                    }
-                }
+                Map<String,Object> studentMap = (HashMap<String,Object>) dataSnapshot.getValue();
+                fName = (String) studentMap.get("First Name");
+                welcomeText = (TextView) findViewById(R.id.Welcome);
+                welcomeText.setText("Welcome " +fName+ " to The University of Maximegalon Course Registration!");
+
             }
 
             @Override
@@ -68,14 +67,6 @@ public class WelcomePage extends AppCompatActivity {
                 goToRegisteredClasses();
             }
         });
-
-        schedule = (Button) findViewById(R.id.schedule);
-        schedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToSchedule();
-            }
-        });
     }
     /** Called when the user taps the button */
     public void goToRegisteredClasses() {
@@ -88,9 +79,8 @@ public class WelcomePage extends AppCompatActivity {
         Intent startNewActivity = new Intent(this, AcademicTimetable.class);
         startActivity(startNewActivity);
     }
-    public void goToSchedule() {
+    public void goToSchedule(View view) {
         // Do something in response to button
-        Intent startNewActivity = new Intent(this, StudentSchedule.class);
-        startActivity(startNewActivity);
     }
 }
+
