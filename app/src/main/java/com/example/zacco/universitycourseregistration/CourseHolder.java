@@ -9,6 +9,8 @@
 
 
     import com.google.android.gms.tasks.Task;
+    import com.google.firebase.auth.FirebaseAuth;
+    import com.google.firebase.auth.FirebaseUser;
     import com.google.firebase.database.DataSnapshot;
     import com.google.firebase.database.DatabaseError;
     import com.google.firebase.database.DatabaseReference;
@@ -20,6 +22,7 @@
         public Button registerButton;
         public TextView courseContent;
         public Button delete;
+        String currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser().getUid() ;
 
         // database reference
         private DatabaseReference mydb;
@@ -39,8 +42,10 @@
                             @Override
                             public void onClick(View v){
                                 // creating a child in root object
-                                regId[0] =mydb.child("Students").child("JhBCzdu6MlWNal2sBkJRRvqTD7H3").child("Courses").push().getKey();
-                                mydb.child("Students").child("JhBCzdu6MlWNal2sBkJRRvqTD7H3").child("Courses").child(regId[0]).setValue(getCourseName());
+                                //regId[0] =mydb.child("Students").child("JhBCzdu6MlWNal2sBkJRRvqTD7H3").child("Courses").push().getKey();
+                                regId[0] =mydb.child("Students").child(String.valueOf(currentFirebaseUser)).child("Courses").push().getKey();
+                                mydb.child("Students").child(String.valueOf(currentFirebaseUser)).child("Courses").child(regId[0]).setValue(getCourseName());
+                                //mydb.child("Students").child("JhBCzdu6MlWNal2sBkJRRvqTD7H3").child("Courses").child(regId[0]).setValue(getCourseName());
                             }
                         });
             // setting a listener for the delete button
@@ -48,7 +53,8 @@
                 @Override
                 public void onClick(View v) {
                     //removing the value created
-                    mydb.child("Students").child("JhBCzdu6MlWNal2sBkJRRvqTD7H3").child("Courses").child(regId[0]).removeValue();
+                    //mydb.child("Students").child("JhBCzdu6MlWNal2sBkJRRvqTD7H3").child("Courses").child(regId[0]).removeValue();
+                    mydb.child("Students").child(String.valueOf(currentFirebaseUser)).child("Courses").child(regId[0]).removeValue();
                 }
             });
         }
@@ -71,4 +77,6 @@
             courseContent.setText(courseName);
         }
     }
+
+
 
