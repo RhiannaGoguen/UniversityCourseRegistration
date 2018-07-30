@@ -80,7 +80,8 @@ public class WelcomePage extends AppCompatActivity {
         startActivity(startNewActivity);
     }
     public void goToSchedule(View view) {
-        // Do something in response to button
+        Intent startNewActivity = new Intent(this, StudentSchedule.class);
+        startActivity(startNewActivity);
     }
 }
 
