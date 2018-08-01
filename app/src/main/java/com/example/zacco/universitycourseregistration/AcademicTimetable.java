@@ -87,6 +87,7 @@ public class AcademicTimetable extends AppCompatActivity {
             }
         });
 
+
     }
     public void displayQuery(Query query){
         final FirebaseRecyclerOptions<Course> options =
@@ -115,7 +116,6 @@ public class AcademicTimetable extends AppCompatActivity {
             protected void onBindViewHolder(CourseHolder holder, int position, Course model) {
                 holder.bindCourse(model);
             }
-
 
         };
 
