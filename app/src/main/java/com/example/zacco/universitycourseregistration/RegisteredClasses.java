@@ -18,6 +18,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Displays reqistered classes by pulling the registered class list from firebase
+ */
+
 public class RegisteredClasses extends ListActivity {
 
     private FirebaseAuth auth;
@@ -30,6 +34,9 @@ public class RegisteredClasses extends ListActivity {
         populateRegistered();
     }
 
+    /**
+     * Creates a map from the firebase data entries for courses for the logged-in student
+     */
     public void populateRegistered() {
         auth = FirebaseAuth.getInstance();
         Log.v("Method","populateRegistered Called");
@@ -52,6 +59,11 @@ public class RegisteredClasses extends ListActivity {
         });
     }
 
+    /**
+     * Returns an array with the course names
+     * @param map
+     *          map from which the values are pulled from
+     */
     public void getArray(Map<String, Object> map) {
         String[] currentClasses = new String[map.size()];
         int i = 0;

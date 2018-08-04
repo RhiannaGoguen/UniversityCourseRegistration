@@ -1,6 +1,5 @@
     package com.example.zacco.universitycourseregistration;
 
-    //https://inducesmile.com/android/a-simple-android-todo-list-app-with-recyclerview-and-firebase-real-time-database/
 
     import android.support.v7.widget.RecyclerView;
     import android.util.Log;
@@ -16,12 +15,15 @@
     import com.google.firebase.database.DataSnapshot;
     import com.google.firebase.database.DatabaseError;
     import com.google.firebase.database.DatabaseReference;
-            import com.google.firebase.database.FirebaseDatabase;
+    import com.google.firebase.database.FirebaseDatabase;
     import com.google.firebase.database.ValueEventListener;
 
     import java.util.HashMap;
     import java.util.Map;
 
+    /**
+     * Used by AcademicTimetable class to call the different method related to adding and removing courses
+     */
     public class CourseHolder extends RecyclerView.ViewHolder{
         //declaring the variables here
         public Button registerButton;

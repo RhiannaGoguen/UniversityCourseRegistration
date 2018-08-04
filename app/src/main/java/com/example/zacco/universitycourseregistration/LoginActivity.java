@@ -41,6 +41,9 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
+/**
+ * Log-in page, uses firebaseAuth to check if given user information exists in firebase
+ */
 public class LoginActivity extends AppCompatActivity {
     private EditText inEmail, inPass;
     private FirebaseAuth auth;

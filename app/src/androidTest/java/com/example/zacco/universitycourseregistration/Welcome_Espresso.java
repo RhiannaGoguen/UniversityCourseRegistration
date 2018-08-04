@@ -31,7 +31,7 @@ public class Welcome_Espresso {
 
     //Tests that Welcomepage works
     @Test
-    public void checkPass() throws InterruptedException {
+    public void checkText() throws InterruptedException {
         activityRule.launchActivity(new Intent());
         Espresso.closeSoftKeyboard();
         Thread.sleep(10000);

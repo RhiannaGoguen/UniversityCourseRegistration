@@ -6,6 +6,9 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.util.Map;
 
+/**
+ * Used to store course information for a particular course
+ */
 public class Course {
 
     String name;
